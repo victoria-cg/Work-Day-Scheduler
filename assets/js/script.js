@@ -25,6 +25,8 @@ function renderHours() {
     var textAreaEl = $('<textarea>');
     //create variable to make button 
     var buttonEl = $('<button>');
+    //create variable for <i> element
+    var iEl = $('<i>');
 
     //assign style to time block with classes from example. Xpert AI used for syntax correction in this section
     timeBlock.addClass('row time-block');
@@ -42,9 +44,12 @@ function renderHours() {
     textAreaEl.addClass('col-8 col-md-10 description').attr('rows', '3');
     //add button as child of timeBlock div
     timeBlock.append(buttonEl);
-    //add class to button
-    buttonEl.addClass('btn saveBtn col-2 col-md-1');
-    //in this place I need to add the <i> child for the button, also need aria label, can that go in the same line as the class? can rows=3 go in the same line as the class on text area?
+    //add class to button, add aria label to button as attribute key:value pair
+    buttonEl.addClass('btn saveBtn col-2 col-md-1').attr('aria-label', 'save');
+    //append <i> element to the button to add the 'save' icon., need link in HTML for the font awesome CDN
+    buttonEl.append(iEl);
+    //add class to the <i> element so it can get styled by font awesome library, add attribute key:value pair for 'aria hidden'
+    iEl.addClass('fas fa-save').attr('aria-hidden', 'true');
     
     //append timeBlock to the document body
     $('body').append(timeBlock);
@@ -52,13 +57,19 @@ function renderHours() {
 }
 renderHours(); //calls the renderHours function to execute the code
   
-  //here is the event listener jquery-help from ask BCS, Xper for syntax correction and spelling errors in function
+  //here is the event listener jquery-help from ask BCS, XpertAI for syntax correction and spelling errors in function
   $( ".saveBtn" ).on( "click", function() {
     var textValue = $(this).siblings('.description').val(); //gets value of sibling of button with .description class, AKA textArea's value
     var time = $(this).siblings('.id').val(); //gets the value of the button's sibling's ID, which is the hour time
     console.log(textValue);
     console.log(time);
     //need to add local storage here?
+    //localStorage.setItem("textValue", JSON.stringify(textValue));
+    //console.log(localStorage); //saves input of 'textValue' variable as a string in local storage
+    //set item goes in button, but get item only needs to be done once
+    //print event to text box first then save to storage as last step
+    //you can loop the event saving across all hours so it only has to do it once for the whole calendar
+    //using toggle for each line in the if/else sequence will create a binary question to answer for each to check if true before moving on 
   }); 
 
   //get text info from local storage and set it to value of corresponding text areas
