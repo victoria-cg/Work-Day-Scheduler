@@ -46,9 +46,9 @@ function renderHours() {
     timeBlock.append(buttonEl);
     //add class to button, add aria label to button as attribute key:value pair
     buttonEl.addClass('btn saveBtn col-2 col-md-1').attr('aria-label', 'save');
-    //append <i> element to the button to add the 'save' icon., need link in HTML for the font awesome CDN
+    //append <i> element to the button to add the 'save' icon.
     buttonEl.append(iEl);
-    //add class to the <i> element so it can get styled by font awesome library, add attribute key:value pair for 'aria hidden'
+    //add class to the <i> element so it can get styled by font awesome library, which adds the save icon, add attribute key:value pair for 'aria hidden'
     iEl.addClass('fas fa-save').attr('aria-hidden', 'true');
     
     //append timeBlock to the document body
@@ -60,21 +60,21 @@ renderHours(); //calls the renderHours function to execute the code
   //here is the event listener jquery-help from ask BCS, XpertAI for syntax correction and spelling errors in function
   $( ".saveBtn" ).on( "click", function() {
     var textValue = $(this).siblings('.description').val(); //gets value of sibling of button with .description class, AKA textArea's value
-    var time = $(this).siblings('.id').val(); //gets the value of the button's sibling's ID, which is the hour time
+    var time = $(this).parent().attr('id'); //gets the value of the button's parent's ID, which is the hour time ID: Xpert AI helped debug that it was parent not sibling container's attribute
     console.log(textValue);
     console.log(time);
     //need to add local storage here?
-    //localStorage.setItem("textValue", JSON.stringify(textValue));
-    //console.log(localStorage); //saves input of 'textValue' variable as a string in local storage
+    localStorage.setItem("textValue", JSON.stringify(textValue)); //saves input of 'textValue' variable as a string in local storage
+    console.log(localStorage); //logs localStorage so I can see it in console
     //set item goes in button, but get item only needs to be done once
     //print event to text box first then save to storage as last step
     //you can loop the event saving across all hours so it only has to do it once for the whole calendar
-    //using toggle for each line in the if/else sequence will create a binary question to answer for each to check if true before moving on 
   }); 
 
   //get text info from local storage and set it to value of corresponding text areas
   //need to add if/else logic to compare the values of the hour IDs to the current 24 hr time from day.js
   //use a for loop to get all of the IDs when comparing their times for color coding?
+//using toggle for each line in the if/else sequence will create a binary question to answer for each to check if true before moving on for color formatting
 
   //curentDay var and dayjs API called displays the date on the page and targets the ID of the header in html doc
   var currentDay = dayjs()
