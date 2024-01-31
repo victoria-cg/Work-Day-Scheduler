@@ -61,14 +61,27 @@ renderHours(); //calls the renderHours function to execute the code
   $( ".saveBtn" ).on( "click", function() {
     var textValue = $(this).siblings('.description').val(); //gets value of sibling of button with .description class, AKA textArea's value
     var time = $(this).parent().attr('id'); //gets the value of the button's parent's ID, which is the hour time ID: Xpert AI helped debug that it was parent not sibling container's attribute
-    console.log(textValue);
-    console.log(time);
+    var textAreaEl = $('<textarea>');
+    //console.log(textValue);
+   // console.log(time);
     //need to add local storage here?
-    localStorage.setItem("textValue", JSON.stringify(textValue)); //saves input of 'textValue' variable as a string in local storage
+    localStorage.setItem(time, JSON.stringify(textValue)); //saves input of 'textValue' variable as a string in local storage, with time ID as the key
     console.log(localStorage); //logs localStorage so I can see it in console
     //set item goes in button, but get item only needs to be done once
-    //print event to text box first then save to storage as last step
+    //print event to text box first then save to storage as last step?
     //you can loop the event saving across all hours so it only has to do it once for the whole calendar
+   
+    //this function loops the length of local storage and does getItem to retrieve the key value pairs saved there for hour and event
+    //need to make the function run when the page refreshes in order to call up the saved info?
+    function renderSaved(){
+      for (let i = 0; i < localStorage.length; i++){ //loops through all the values saved in local storage
+        let eventTime = localStorage.key(i); //gets (i)th key from local storage
+        let eventContent = localStorage.getItem(eventTime); //gets values corresponding to keys selected by eventTime
+        console.log(eventTime, eventContent);
+        textAreaEl.val(eventContent); //appends value of event content to text area
+      }
+    }
+    renderSaved(); //call renderSaved
   }); 
 
   //get text info from local storage and set it to value of corresponding text areas
@@ -81,21 +94,7 @@ renderHours(); //calls the renderHours function to execute the code
   $('#currentDay').text(currentDay.format('dddd, MMMM D'));
 
 });
-  //
-  /* commented out 14-27, need to replace vanilla javascript with jquery
-  var saveButton = document.querySelector(".btn.saveBtn.col-2.col-md-1"); //creates variable targeting the save buttons
-  var hourNineText = document.querySelector(".col-8.col-md-10.description"); //selects the hour-9 id div 
-
-  saveButton.addEventListener("click", function(event) {
-    event.preventDefault(); //this listens for a click on the save button
-//need code in here to use ID of time block and save input to local storage
-    var input = {
-      hourNine: hourNineText.value //saves value of hour-9 div as an object
-    }
-
-    localStorage.setItem("input", JSON.stringify(input));
-    console.log(input); //saves input of 'input' variable as a string in local storage
-  }); */
+ 
 
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
