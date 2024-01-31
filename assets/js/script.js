@@ -1,19 +1,21 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(function () { //this function will render the calendar timeslots/buttons to the page
+$(function () { 
   
-function renderHours() {
+
+  
+function renderHours() { //this function will render the calendar timeslots/buttons to the page
   var hours = [
-    '9AM',
-    '10AM',
-    '11AM',
-    '12PM',
-    '1PM',
-    '2PM',
-    '3PM',
-    '4PM',
-    '5PM',
+    '9',
+   '10',
+   '11',
+   '12',
+   '13',
+   '14',
+   '15',
+   '16',
+   '17',
   ];
 
   for (var i = 0; i < hours.length; i++) {
@@ -31,7 +33,7 @@ function renderHours() {
     //assign style to time block with classes from example. Xpert AI used for syntax correction in this section
     timeBlock.addClass('row time-block');
     //create id for time block div
-    timeBlock.attr('id', 'hour-' + hours[i]);
+    timeBlock.attr('id', hours[i]);
     //attach div for hour label
     timeBlock.append(hourDisplay);
     //assign style to div child of timeBlock aka hourDisplay
@@ -75,10 +77,10 @@ renderHours(); //calls the renderHours function to execute the code
     //need to make the function run when the page refreshes in order to call up the saved info?
     function renderSaved(){
       for (let i = 0; i < localStorage.length; i++){ //loops through all the values saved in local storage
-        let eventTime = localStorage.key(i); //gets (i)th key from local storage
-        let eventContent = localStorage.getItem(eventTime); //gets values corresponding to keys selected by eventTime
+        let timeKey = localStorage.key(i); //gets (i)th key from local storage
+        let textValue = localStorage.getItem(timeKey); //gets values corresponding to keys selected by timeKey
         console.log(eventTime, eventContent);
-        textAreaEl.val(eventContent); //appends value of event content to text area
+        textAreaEl.val(textValue); //appends value of event content to text area
       }
     }
     renderSaved(); //call renderSaved
@@ -89,13 +91,34 @@ renderHours(); //calls the renderHours function to execute the code
   //use a for loop to get all of the IDs when comparing their times for color coding?
 //using toggle for each line in the if/else sequence will create a binary question to answer for each to check if true before moving on for color formatting
 
+//function colorChange selects each element with class 'timeBlock'
+//ColorChange then compares the ID of timeBlock element to the currentTime variable to choose a color scheme
+var currentTime = dayjs().format('HH') //gets 24 hr time dayjs
+
+function colorChange(){
+  $('.timeBlock').each(function(){
+    if ($(this).attr('id') < currentTime) {
+      $(this).addClass('past');
+    }
+    else if ($(this).attr('id') === currentTime) {
+      $(this).addClass('present');
+    }
+    else {
+      $(this).addClass('future');
+    }
+  });
+}
+  colorChange();
+  //need to add loop to select all time block elements? used .each instead of loop
+  //need to change id values in render function to be 24 hr time, but then need to fix label visible on screen
+ 
+
   //curentDay var and dayjs API called displays the date on the page and targets the ID of the header in html doc
   var currentDay = dayjs()
   $('#currentDay').text(currentDay.format('dddd, MMMM D'));
 
-});
  
-
+})
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
