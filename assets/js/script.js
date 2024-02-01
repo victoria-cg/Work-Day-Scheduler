@@ -1,10 +1,7 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-$(function () { 
-  
 
-  
+//document.ready function is supposed to make the browser wait until the DOM is ready before running the JS, but currently it makes nothing display
+//$(document).ready()(function(){ 
+
 function renderHours() { //this function will render the calendar timeslots/buttons to the page
   var hours = [
     '9',
@@ -29,6 +26,7 @@ function renderHours() { //this function will render the calendar timeslots/butt
     var buttonEl = $('<button>');
     //create variable for <i> element
     var iEl = $('<i>');
+
 
     //assign style to time block with classes from example. Xpert AI used for syntax correction in this section
     timeBlock.addClass('row time-block');
@@ -55,10 +53,31 @@ function renderHours() { //this function will render the calendar timeslots/butt
     
     //append timeBlock to the document body
     $('body').append(timeBlock);
+  
   };
 }
 renderHours(); //calls the renderHours function to execute the code
-  
+
+//code here populates the events from local storage to the screen
+let textarea9 = document.getElementById('9');
+textarea9.children[1].value = localStorage.getItem('9') || 'no events scheduled';
+let textarea10 = document.getElementById('10');
+textarea10.children[1].value = localStorage.getItem('10') || 'no events scheduled';
+let textarea11 = document.getElementById('11');
+textarea11.children[1].value = localStorage.getItem('11') || 'no events scheduled';
+let textarea12 = document.getElementById('12');
+textarea12.children[1].value = localStorage.getItem('12') || 'no events scheduled';
+let textarea13 = document.getElementById('13');
+textarea13.children[1].value = localStorage.getItem('13') || 'no events scheduled';
+let textarea14 = document.getElementById('14');
+textarea14.children[1].value = localStorage.getItem('14') || 'no events scheduled';
+let textarea15 = document.getElementById('15');
+textarea15.children[1].value = localStorage.getItem('15') || 'no events scheduled';
+let textarea16 = document.getElementById('16');
+textarea16.children[1].value = localStorage.getItem('16') || 'no events scheduled';
+let textarea17 = document.getElementById('17');
+textarea17.children[1].value = localStorage.getItem('17') || 'no events scheduled';
+
   //here is the event listener jquery-help from ask BCS, XpertAI for syntax correction and spelling errors in function
   $( ".saveBtn" ).on( "click", function() {
     var textValue = $(this).siblings('.description').val(); //gets value of sibling of button with .description class, AKA textArea's value
@@ -69,27 +88,19 @@ renderHours(); //calls the renderHours function to execute the code
     //need to add local storage here?
     localStorage.setItem(time, JSON.stringify(textValue)); //saves input of 'textValue' variable as a string in local storage, with time ID as the key
     console.log(localStorage); //logs localStorage so I can see it in console
-    //set item goes in button, but get item only needs to be done once
-    //print event to text box first then save to storage as last step?
-    //you can loop the event saving across all hours so it only has to do it once for the whole calendar
    
     //this function loops the length of local storage and does getItem to retrieve the key value pairs saved there for hour and event
     //need to make the function run when the page refreshes in order to call up the saved info?
-    function renderSaved(){
+    
       for (let i = 0; i < localStorage.length; i++){ //loops through all the values saved in local storage
         let timeKey = localStorage.key(i); //gets (i)th key from local storage
-        let textValue = localStorage.getItem(timeKey); //gets values corresponding to keys selected by timeKey
-        console.log(eventTime, eventContent);
+        console.log(timeKey);
+        let textValue = JSON.parse(localStorage.getItem(timeKey)); //gets values corresponding to keys selected by timeKey
         textAreaEl.val(textValue); //appends value of event content to text area
+
       }
-    }
-    renderSaved(); //call renderSaved
   }); 
 
-  //get text info from local storage and set it to value of corresponding text areas
-  //need to add if/else logic to compare the values of the hour IDs to the current 24 hr time from day.js
-  //use a for loop to get all of the IDs when comparing their times for color coding?
-//using toggle for each line in the if/else sequence will create a binary question to answer for each to check if true before moving on for color formatting
 
 //function colorChange selects each element with class 'timeBlock'
 //ColorChange then compares the ID of timeBlock element to the currentTime variable to choose a color scheme
@@ -109,16 +120,19 @@ function colorChange(){
   });
 }
   colorChange();
-  //need to add loop to select all time block elements? used .each instead of loop
+
   //need to change id values in render function to be 24 hr time, but then need to fix label visible on screen
  
 
   //curentDay var and dayjs API called displays the date on the page and targets the ID of the header in html doc
   var currentDay = dayjs()
   $('#currentDay').text(currentDay.format('dddd, MMMM D'));
-
+//}); commented out documetn ready closing brackets to deactivate while debugging
  
-})
+
+
+
+
   // TODO: Add code to apply the past, present, or future class to each time
   // block by comparing the id to the current hour. HINTS: How can the id
   // attribute of each time-block be used to conditionally add or remove the
